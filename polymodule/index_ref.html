@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>KnowRe User Guides</title>
+		<script src="http://local.knowre.com/static/UserGuidesModule/bower_components/webcomponentsjs/webcomponents.js"></script>
+		<link rel="import" href="http://local.knowre.com/static/UserGuidesModule/bower_components/polymer/polymer.html">
+		<link rel="import" href="http://local.knowre.com/static/UserGuidesModule/bower_components/core-icon-button/core-icon-button.html">		
+		<link rel="import" href="http://local.knowre.com/static/UserGuidesModule/bower_components/core-scroll-header-panel/core-scroll-header-panel.html">
+		<link rel="import" href="http://local.knowre.com/static/UserGuidesModule/bower_components/core-toolbar/core-toolbar.html">				
+		<link rel="import" href="http://local.knowre.com/static/UserGuidesModule/bower_components/core-image/core-image.html">
+		<link rel="import" href="http://local.knowre.com/static/UserGuidesModule/bower_components/core-media-query/core-media-query.html">
+		<link rel="import" href="http://local.knowre.com/static/UserGuidesModule/bower_components/flatiron-director/flatiron-director.html">
+		<link rel="import" href="http://local.knowre.com/static/UserGuidesModule/my_components/app-globals.html">
+		<link rel="import" href="http://local.knowre.com/static/UserGuidesModule/my_components/main-card.html">		
+		<style shim-shadowdom>
+			@font-face {
+				font-family: 'KnowReLato';
+				src: url("http://local.knowre.com/static/font/Lato-Regular.woff");
+			}
+			@font-face {
+				font-family: 'KnowReLatoBold';
+				src: url("http://local.knowre.com/static/font/Lato-Bold.woff");
+			}
+
+			html, body {
+				height: 100%;
+				margin: 0;
+
+				font-family: 'KnowReLato' !important;
+			}
+
+			core-scroll-header-panel {
+		      position: absolute;
+		      top: 0;
+		      right: 0;
+		      bottom: 0;
+		      left: 0;
+		      background: rgba(250,250,250,1);      
+		    }
+
+		    core-scroll-header-panel::shadow #headerContainer {
+			    pointer-events: none;
+			}
+
+		    core-scroll-header-panel::shadow #condensedHeaderBg {
+		      	background-color: #f4b400;
+		    }
+
+			core-toolbar {				
+				background: rgba(140,185,0,1);				
+				height: 430px;
+			}			
+
+			.hidden {
+				display: none;
+			}			
+
+			.title {						
+		      	-webkit-transform-origin: 0;
+		      	transform-origin: 0;
+		      	font-family: 'KnowReLatoBold';
+		      	font-size: 56px;
+		      	color: rgb(255,255,255);		      	
+		    }
+
+		    .subtitle {		    			    	
+		    	font-size: 20px;
+		    	color: rgb(255,255,255);
+		    	text-align: left;	
+		    	margin-top: 10px;
+		    }
+
+		    .img_title {
+		    	-webkit-transform-origin: 0;
+		      	transform-origin: 0;
+		    	position: absolute;
+		    	right: 220px;
+		    	top: 0px;
+		    }
+			
+		</style>
+	</head>
+	<body unresolved>		
+		<template id="temp_app" is="auto-binding">
+			<flatiron-director route="{{route}}" autoHash></flatiron-director>
+			<app-globals id="globals"></app-globals>
+
+			<core-scroll-header-panel id="mPanel" condenses condensedHeaderHeight="70px" keepCondensedHeader="true">
+				<core-toolbar id="toolbar">
+					<a href="{{$.globals.host}}/basecamp"><core-image src="{{$.globals.path}}/images/logo.png"></core-image></a>		
+					<div class="mainTitle bottom">
+						<div class="title">User Guides</div>
+						<div class="subtitle">New to KnowRe? Need a refresher? <br />  
+							Look no further! Click below for <br />
+							all of the information you need.
+						</div>	
+					</div>
+					<core-image class="img_title" src="{{$.globals.path}}/images/title_img.png" hidden?={{!wide}}></core-image>
+				</core-toolbar>
+									
+				<main-card id="main_card" mode="teacher" wide="{{wide}}" groups="{{groups}}" isDirect="{{isDirect}}" route="{{route}}" touch-action="auto"></main-card>				
+			</core-scroll-header-panel>
+			<core-media-query query="min-width: 1250px" queryMatches="{{wide}}"></core-media-query>
+			<script>				
+				// custom transformation: scale header's title
+				var mainTitle = document.querySelector('.mainTitle');
+				mainTitle.style.marginBottom = "300px";
+				mainTitle.style.marginLeft = "190px";
+				mainTitle.style.pointerEvents = "none";
+
+				var imgTitle = document.querySelector('.img_title');		
+				imgTitle.style.pointerEvents = "none";		
+
+			    var titleStyle = document.querySelector('.title').style;			    
+			    addEventListener('core-header-transform', function(e) {
+			      	var d = e.detail;			      	
+			      	var m = 180 - d.condensedHeight;
+			      	var scale = Math.max(0.5, (m - d.y) / (m / 0.25)  + 0.75);
+			      	titleStyle.transform = titleStyle.webkitTransform =
+			        	  'scale(' + scale + ') translateZ(0)';
+
+			        imgTitle.style.transform = imgTitle.webkitTransform = 'scale(' + scale + ') translateZ(0)';
+			        imgTitle.style.top = (0 - d.y)+"px"; 			        
+			        
+			      	if(d.y>=170){
+			      		mainTitle.style.marginBottom = "-10px";
+			      		mainTitle.style.marginLeft = "54px";
+			      		mainTitle.className ="mainTitle";
+			      		document.querySelector(".subtitle").setAttribute("hidden", null);
+
+			      		if(this.wide){
+			      			imgTitle.setAttribute("hidden", null);
+			      		}			   				
+			      	}else {
+			      		mainTitle.style.marginBottom = "300px";
+			    		mainTitle.style.marginLeft = "190px";
+			      		mainTitle.className ="mainTitle bottom";
+			      		document.querySelector(".subtitle").removeAttribute("hidden");
+			      		if(this.wide) {
+			      			imgTitle.removeAttribute("hidden");
+			      		}			      		
+			      	}
+			    });								    
+
+			    var main_card = document.querySelector('main-card');						    			    
+			    main_card.addEventListener('change-page', function(e){			    			    	
+			    	var toolbar = document.querySelector('#toolbar');						    	
+			    	if(e.detail.selected==0){
+			    		toolbar.setAttribute("hidden", null);						    		
+			    		if(main_card.isDirect){
+			    			main_card.style.marginTop = "0px";
+			    		} else{
+			    			main_card.style.marginTop = "-400px";	
+			    		}			    	
+
+			    		document.querySelector("#mPanel").scroller.scrollTop = 0;
+			    	} else {
+			    		if(main_card.isDirect){
+			    			location.href= this.$.globals.host+"/userguide";
+			    		} else {
+			    			toolbar.removeAttribute("hidden");			  
+				    		main_card.style.marginTop = "0px";
+				    		document.querySelector("#mPanel").scroller.scrollTop = 430;
+			    		}			    		
+			    	}			    	
+			    });				    			    			 
+			</script>
+		</template>
+
+		<script src="http://local.knowre.com/static/UserGuidesModule/app.js"></script>		    
+	</body>
+</html>	

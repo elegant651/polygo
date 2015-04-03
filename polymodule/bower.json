@@ -1,0 +1,19 @@
+{
+  "name": "UserGuidesModule",
+  "version": "0.0.0",
+  "authors": [
+    "elegantuniv <khpark@knowre.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.2",
+    "app-router": "~2.4.0"
+  }
+}

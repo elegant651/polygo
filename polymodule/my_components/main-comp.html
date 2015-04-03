@@ -1,0 +1,76 @@
+<link rel="import" href="message-service.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-toolbar/core-toolbar.html">				
+<link rel="import" href="../bower_components/core-image/core-image.html">
+<link rel="import" href="../bower_components/google-map/google-map.html">
+<link rel="import" href="../bower_components/google-map/google-map-directions.html">
+<link rel="import" href="../bower_components/google-map/google-map-search.html">
+
+
+<polymer-element name="main-comp" attributes="messages" horizontal fullbleed layout>
+<template>
+	<style>
+		core-toolbar {
+			width: 100%;
+		}
+
+		google-map {
+			width: 100%;
+			height: 800px;
+			margin-top: 80px;
+		}
+	</style>	
+	<div class="main-panel" vertical fullbleed layout>
+		<core-toolbar>
+			<core-image src="../images/logo.png"></core-image>	
+			<div flex>Polygo</div>
+			<template repeat="{{msg in messages}}">
+				{{msg.username}} / {{msg.txt}} / {{msg.lat}} / {{msg.lng}} / 				 
+			</template>
+		</core-toolbar>						
+		<!-- <template is="auto-binding"> -->
+			<google-map id="googlemap" map="{{map}}" latitude="37.504" longitude="127.022013" minZoom="12" maxZoom="14" language="en" fit>
+				<template repeat="{{msg in messages}}">	
+				 	<google-map-marker map="{{map}}" latitude="{{msg.lat}}" longitude="{{msg.lng}}" title="{{msg.text}}" draggable="true"></google-map-marker>
+				 </template>
+			</google-map>			
+			<!-- <google-map-search id="gms" map="{{map}}" query="company"
+                     result="{{result}}"></google-map-search>  -->
+			<!-- <google-map-directions id="gmd" map="{{map}}" startAddress="Banpo-dong, Seoul, South Korea" endAddress="Bucheon-si, Gyeonggi-do, South Korea" language="en"></google-map-directions> -->
+		<!-- </template> -->
+	</div>
+	
+	<message-service id="service" messages="{{messages}}"></message-service>
+</template>
+<script>
+	
+	Polymer('main-comp', {
+		messages: null,
+		thisLat: 37.504,
+		thisLng: 127.022013,
+		thisTxt: "",
+
+		created: function() {			
+
+		},
+
+		domReady: function() {
+			var that = this;
+			this.$.googlemap.addEventListener('google-map-ready', function(e){
+				console.log("google-map-ready");
+				if(that.messages[0]!=undefined){
+					that.thisLat = that.messages[0].lat;	
+					that.thisLng = that.messages[0].lng;
+					that.thisTxt = that.messages[0].text;
+				}						
+
+				// that.$.gms.search();
+			});
+			// this.$.googlemap.addEventListener('api-load', function(e) {				
+			// 	that.$.gmd.map = this.map;
+			// });
+		}	
+	});
+
+</script>
+</polymer-element>

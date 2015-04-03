@@ -1,0 +1,44 @@
+[
+  {
+    "uid": 1,
+    "username" : "Will",
+    "text" : "knowre",
+    "lat" : "37.504",
+    "lng" : "127.022013"
+  },
+  {
+    "uid": 2,
+    "username" : "Will",
+    "text" : "knowre",
+    "lat" : "37.497536",
+    "lng" : "127.027560"
+  },
+  {
+    "uid": 3,
+    "username" : "Will",
+    "text" : "knowre",
+    "lat" : "37.503801",
+    "lng" : "127.005244"
+  },
+  {
+    "uid": 4,
+    "username" : "Will",
+    "text" : "knowre",
+    "lat" : "37.516465",
+    "lng" : "127.019127"
+  },
+  {
+    "uid": 5,
+    "username" : "Will",
+    "text" : "knowre",
+    "lat" : "37.498166",
+    "lng" : "126.968702"
+  },
+  {
+    "uid": 6,
+    "username" : "Will",
+    "text" : "knowre",
+    "lat" : "37.494659",
+    "lng" : "126.791247"
+  }
+]
